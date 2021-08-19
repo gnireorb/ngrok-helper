@@ -182,7 +182,6 @@ int main(int, char**)
                 }
                 ImGui::Separator();
                 ImGui::Text("region");
-                static int region{};
                 const char* const regions[] { "south america", "north america", "europe", "asia", "australia" };
                 if (ImGui::Combo("tunnel region", &region, regions, IM_ARRAYSIZE(regions)))
                 {
