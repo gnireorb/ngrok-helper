@@ -1,0 +1,6 @@
+[submodule "include/ImGui"]
+	path = include/ImGui
+	url = https://github.com/ocornut/ImGui
+[submodule "include/rapidjson"]
+	path = include/rapidjson
+	url = https://github.com/Tencent/rapidjson
