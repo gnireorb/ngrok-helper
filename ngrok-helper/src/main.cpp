@@ -16,14 +16,20 @@ static LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 int main(int, char**)
 {
+    SetConsoleTitleA("ngrok-helper");
+    spdlog::set_pattern("[%H:%M:%S] [%t] [%^%l%$] %v");
+    spdlog::info("Hello from spdlog!");
+
     ngrok::ngrok();
+    spdlog::info("ngrok initialized.");
 
     Document doc;
     doc.Parse(util::read_file("settings.json").c_str());
     static int region = doc["ngrok_region"].GetInt();
-    std::cout << "[region]: " << doc["ngrok_region"].GetInt() << std::endl;
     static int port = doc["last_port"].GetInt();
-    std::cout << "[port]: " << doc["last_port"].GetInt() << std::endl << std::endl;
+    spdlog::info("region: {}", region);
+    spdlog::info("port: {}", port);
+
     ::ShowWindow(::GetConsoleWindow(), SW_HIDE);
 
     WNDCLASSEX wc = { sizeof(WNDCLASSEX), CS_CLASSDC, WndProc, 0L, 0L, GetModuleHandle(NULL), NULL, NULL, NULL, NULL, _T("ngrok-helper"), NULL };
@@ -144,7 +150,10 @@ int main(int, char**)
                     StringBuffer buffer;
                     Writer<StringBuffer> writer(buffer);
                     doc.Accept(writer);
-                    util::write_to_file("settings.json", buffer.GetString());
+                    if (util::write_to_file("settings.json", buffer.GetString()))
+                    {
+                        spdlog::info("util::write_to_file() well done.");
+                    }
                 }
                 ImGui::PopItemWidth();
                 if (ImGui::Button("create a tunnel"))
@@ -161,12 +170,13 @@ int main(int, char**)
                 if (ImGui::Button("get IP"))
                 {
                     ip = g_ngrok->get_public_url();
+                    spdlog::info("g_ngrok->get_public_url() ->  {}", ip);
                 }
                 ImGui::SameLine();
                 if (ImGui::Button("copy IP"))
                 {
-                    HWND hwnd = GetDesktopWindow();
-                    util::to_clipboard(hwnd, g_ngrok->get_public_url());
+                    util::to_clipboard(GetDesktopWindow(), ip);
+                    spdlog::info("util::to_clipboard() ->  {}", ip);
                 }
                 ImGui::Separator();
                 ImGui::Text("authtoken");
@@ -174,8 +184,8 @@ int main(int, char**)
                 ImGui::InputText("authtoken", &authtoken);
                 if (ImGui::Button("set ngrok authtoken"))
                 {
-                    std::string commandline = "ngrok authtoken " + authtoken;
-                    std::system(commandline.c_str());
+                    spdlog::info("ngrok authtoken {}", authtoken);
+                    std::system(fmt::format("ngrok authtoken {}", authtoken).c_str());
                 }
                 ImGui::Separator();
                 ImGui::Text("region");
@@ -189,7 +199,10 @@ int main(int, char**)
                     StringBuffer buffer;
                     Writer<StringBuffer> writer(buffer);
                     doc.Accept(writer);
-                    util::write_to_file("settings.json", buffer.GetString());
+                    if (util::write_to_file("settings.json", buffer.GetString()))
+                    {
+                        spdlog::info("util::write_to_file() well done.");
+                    }
                 }
                 ImGui::Separator();
                 if (ImGui::CollapsingHeader("debug stuff"))
@@ -198,6 +211,7 @@ int main(int, char**)
                     if (ImGui::Checkbox("debug mode", &debug_mode))
                     {
                         ::ShowWindow(::GetConsoleWindow(), debug_mode ? SW_SHOW : SW_HIDE);
+                        spdlog::info("Hello from console!");
                     }
                 }
 

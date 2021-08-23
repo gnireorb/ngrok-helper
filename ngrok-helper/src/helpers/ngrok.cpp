@@ -40,14 +40,12 @@ ngrok::ngrok()
 bool ngrok::create_tunnel(int port, int region)
 {
 	// Impressive.
-	auto run_command = [](std::string command) {
-		auto _system = [](std::string _command) {
-			system(_command.c_str());
+	auto ngrok_tcp = [](int port, const char* region) {
+		auto _system = [](int port, const char* region) {
+			system(fmt::format("ngrok tcp {} --region {}", port, region).c_str());
 		};
-		std::thread(_system, command).detach();
+		std::thread(_system, port, region).detach();
 	};
-
-	std::string command;
 
 	if (region >= 4 || region < 0)
 		return false;
@@ -55,24 +53,19 @@ bool ngrok::create_tunnel(int port, int region)
 	switch (region)
 	{
 	case 0:
-		command = std::string("ngrok tcp " + std::to_string(port) + " --region sa");
-		run_command(command);
+		ngrok_tcp(port, "sa");
 		break;
 	case 1:
-		command = std::string("ngrok tcp " + std::to_string(port) + " --region us");
-		run_command(command);
+		ngrok_tcp(port, "us");
 		break;
 	case 2:
-		command = std::string("ngrok tcp " + std::to_string(port) + " --region eu");
-		run_command(command);
+		ngrok_tcp(port, "eu");
 		break;
 	case 3:
-		command = std::string("ngrok tcp " + std::to_string(port) + " --region ap");
-		run_command(command);
+		ngrok_tcp(port, "ap");
 		break;
 	case 4:
-		command = std::string("ngrok tcp " + std::to_string(port) + " --region au");
-		run_command(command);
+		ngrok_tcp(port, "au");
 		break;
 	}
 

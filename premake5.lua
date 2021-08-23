@@ -13,7 +13,7 @@ project "ngrok-helper"
    location "ngrok-helper"
    characterset "MBCS"
    
-   includedirs { "include/ImGui", "include/ImGui/backends", "include/rapidjson/include/rapidjson", "include/HTTPRequest/include", "ngrok-helper/src" }
+   includedirs { "include/spdlog/include", "include/ImGui", "include/ImGui/backends", "include/rapidjson/include/rapidjson", "include/HTTPRequest/include", "ngrok-helper/src" }
 
    files { "ngrok-helper/src/**.hpp", "ngrok-helper/src/**.cpp" }
    

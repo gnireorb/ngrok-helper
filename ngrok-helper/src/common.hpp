@@ -23,3 +23,6 @@
 #include "document.h"
 #include "stringbuffer.h"
 #include "writer.h"
+
+#include "spdlog/spdlog.h"
+#include "spdlog/fmt/fmt.h"
