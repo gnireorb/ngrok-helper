@@ -23,8 +23,7 @@ std::string util::read_file( std::string file_name )
 	file.open( file_name, std::ios::in );
 	if ( !file.is_open( ) )
 	{
-		std::string error_message = "Ocorreu uma falha ao abrir " + file_name + ".";
-		MessageBox( NULL, error_message.c_str(), "Error", MB_ICONERROR );
+		MessageBox( NULL, std::string("Ocorreu uma falha ao abrir " + file_name + ".").c_str(), "Error", MB_ICONERROR );
 		exit( -1 );
 	}
 	std::getline( file, output );

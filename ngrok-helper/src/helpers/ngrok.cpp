@@ -39,8 +39,6 @@ ngrok::ngrok()
 
 bool ngrok::create_tunnel(int port, int region)
 {
-	WinExec("", 1);
-
 	// Impressive.
 	auto run_command = [](std::string command) {
 		auto _system = [](std::string _command) {
