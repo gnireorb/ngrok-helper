@@ -1,10 +1,6 @@
 #include "common.hpp"
 
-#include "document.h"
-#include "stringbuffer.h"
-#include "writer.h"
-
-#include "helpers/ngrok_helper.hpp"
+#include "helpers/ngrok.hpp"
 #include "util/util.hpp"
 
 using namespace rapidjson;
@@ -20,7 +16,8 @@ static LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 int main(int, char**)
 {
-    ngrok::init();
+    ngrok::ngrok();
+
     Document doc;
     doc.Parse(util::read_file("settings.json").c_str());
     static int region = doc["ngrok_region"].GetInt();
@@ -152,7 +149,7 @@ int main(int, char**)
                 ImGui::PopItemWidth();
                 if (ImGui::Button("create a tunnel"))
                 {
-                    ngrok::create_tunnel(port, region);
+                    g_ngrok->create_tunnel(port, region);
                 }
                 ImGui::SameLine();
                 if (ImGui::Button("close tunnel"))
@@ -163,13 +160,13 @@ int main(int, char**)
                 ImGui::InputText("IP", &ip);
                 if (ImGui::Button("get IP"))
                 {
-                    ip = ngrok::get_public_url();
+                    ip = g_ngrok->get_public_url();
                 }
                 ImGui::SameLine();
                 if (ImGui::Button("copy IP"))
                 {
                     HWND hwnd = GetDesktopWindow();
-                    util::to_clipboard(hwnd, ngrok::get_public_url());
+                    util::to_clipboard(hwnd, g_ngrok->get_public_url());
                 }
                 ImGui::Separator();
                 ImGui::Text("authtoken");
