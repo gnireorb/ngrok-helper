@@ -4,7 +4,8 @@
     <a href="https://github.com/gnireorb/ngrok-helper/blob/main/LICENSE"><img src="https://img.shields.io/github/license/gnireorb/ngrok-helper" /></a>
 </div>
 
-# Creditos
+# Credits
 - [HTTPRequest](https://github.com/elnormous/HTTPRequest)
 - [imgui](https://github.com/ocornut/imgui)
 - [rapidjson](https://github.com/Tencent/rapidjson)
+- [spdlog](https://github.com/gabime/spdlog)
