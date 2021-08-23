@@ -16,6 +16,8 @@ static void CleanupDeviceD3D();
 static void ResetDevice();
 static LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
+static std::string ip{};
+
 int main(int, char**)
 {
     SetConsoleTitleA("ngrok-helper");
@@ -167,11 +169,13 @@ int main(int, char**)
                 {
                     std::system("taskkill /f /im ngrok.exe");
                 }
-                static std::string ip{};
                 ImGui::InputText("IP", &ip);
                 if (ImGui::Button("get IP"))
                 {
-                    ip = g_ngrok->get_public_url();
+                    auto get_ip = []() {
+                        ip = g_ngrok->get_public_url();
+                    };
+                    std::thread(get_ip).detach();
                     spdlog::info("g_ngrok->get_public_url() ->  {}", ip);
                 }
                 ImGui::SameLine();
