@@ -154,7 +154,7 @@ int main(int, char**)
                     StringBuffer buffer;
                     Writer<StringBuffer> writer(buffer);
                     doc.Accept(writer);
-                    if (util::write_to_file("settings.json", buffer.GetString()))
+                    if (util::write_file("settings.json", buffer.GetString()))
                     {
                         spdlog::info("util::write_to_file() well done.");
                     }
@@ -174,9 +174,10 @@ int main(int, char**)
                 {
                     auto get_ip = []() {
                         ip = g_ngrok->get_public_url();
+                        spdlog::info("get_ip() -> {}", ip);
                     };
                     std::thread(get_ip).detach();
-                    spdlog::info("g_ngrok->get_public_url() ->  {}", ip);
+                    spdlog::info("g_ngrok->get_public_url() -> {}", ip);
                 }
                 ImGui::SameLine();
                 if (ImGui::Button("copy IP"))
@@ -205,7 +206,7 @@ int main(int, char**)
                     StringBuffer buffer;
                     Writer<StringBuffer> writer(buffer);
                     doc.Accept(writer);
-                    if (util::write_to_file("settings.json", buffer.GetString()))
+                    if (util::write_file("settings.json", buffer.GetString()))
                     {
                         spdlog::info("util::write_to_file() well done.");
                     }

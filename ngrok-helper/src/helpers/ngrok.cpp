@@ -28,7 +28,7 @@ ngrok::ngrok()
 			return;
 		}
 
-		if (!util::write_to_file("settings.json", "{\"last_port\":0,\"ngrok_region\":0}"))
+		if (!util::write_file("settings.json", "{\"last_port\":0,\"ngrok_region\":0}"))
 		{
 			MessageBox(NULL, "Ocorreu uma falha ao escrever em 'settings.json'.", "Error", MB_ICONERROR);
 			return;
