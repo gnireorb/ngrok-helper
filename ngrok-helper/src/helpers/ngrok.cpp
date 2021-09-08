@@ -5,7 +5,7 @@
 
 using namespace rapidjson;
 
-ngrok::ngrok()
+void ngrok::init()
 {
 #ifndef DEBUG
 	if (!util::file_exists("ngrok.exe"))

@@ -24,7 +24,7 @@ int main(int, char**)
     spdlog::set_pattern("[%H:%M:%S] [%t] [%^%l%$] %v");
     spdlog::info("Hello from spdlog!");
 
-    ngrok::ngrok();
+    ngrok::init();
     spdlog::info("ngrok initialized.");
 
     Document doc;
@@ -162,7 +162,7 @@ int main(int, char**)
                 ImGui::PopItemWidth();
                 if (ImGui::Button("create a tunnel"))
                 {
-                    g_ngrok->create_tunnel(port, region);
+                    ngrok::create_tunnel(port, region);
                 }
                 ImGui::SameLine();
                 if (ImGui::Button("close tunnel"))
@@ -173,16 +173,17 @@ int main(int, char**)
                 if (ImGui::Button("get IP"))
                 {
                     auto get_ip = []() {
-                        ip = g_ngrok->get_public_url();
+                        ip = ngrok::get_public_url();
                         spdlog::info("get_ip() -> {}", ip);
                     };
                     std::thread(get_ip).detach();
-                    spdlog::info("g_ngrok->get_public_url() -> {}", ip);
+
+                    spdlog::info("ngrok::get_public_url() -> {}", ip);
                 }
                 ImGui::SameLine();
                 if (ImGui::Button("copy IP"))
                 {
-                    util::to_clipboard(GetDesktopWindow(), ip);
+                    util::to_clipboard(GetDesktopWindow(), ip.c_str());
                     spdlog::info("util::to_clipboard() ->  {}", ip);
                 }
                 ImGui::Separator();

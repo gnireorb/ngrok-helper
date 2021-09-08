@@ -39,17 +39,14 @@ bool util::file_exists(std::string path)
 	return (stat(path.c_str(), &buffer) == 0);
 }
 
-void util::to_clipboard(HWND hwnd, const std::string& str)
+void util::to_clipboard(HWND hwnd, const char* str)
 {
-	OpenClipboard(hwnd);
-	EmptyClipboard();
-
-	HGLOBAL hglobal = GlobalAlloc(GMEM_MOVEABLE, str.size() + 1);
-	if (!hglobal) 
-		CloseClipboard(); return;
-
-	std::memcpy(GlobalLock(hglobal), str.c_str(), str.size() + 1);
+	const size_t size = strlen(str) + 1;
+	HGLOBAL hglobal = GlobalAlloc(GMEM_MOVEABLE, size);
+	memcpy(GlobalLock(hglobal), str, size);
 	GlobalUnlock(hglobal);
+	OpenClipboard(0);
+	EmptyClipboard();
 	SetClipboardData(CF_TEXT, hglobal);
 	CloseClipboard();
 	GlobalFree(hglobal);
