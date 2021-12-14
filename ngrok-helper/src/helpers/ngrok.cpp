@@ -7,13 +7,6 @@ using namespace rapidjson;
 
 void ngrok::init()
 {
-#ifndef DEBUG
-	if (!util::file_exists("ngrok.exe"))
-	{
-		MessageBox(NULL, "O arquivo 'ngrok.exe' eh inexistente, baixe-o em 'ngrok.com'.", "Error", MB_ICONERROR);
-		exit(-1);
-	}
-
 	if (!util::file_exists("settings.json"))
 	{
 		if (!util::create_file("settings.json"))
@@ -34,7 +27,32 @@ void ngrok::init()
 			return;
 		}
 	}
-#endif
+}
+
+void ngrok::download_ngrok(const char* url)
+{
+	if (!util::file_exists("ngrok.exe"))
+	{
+		auto result = URLDownloadToFile(nullptr, url, "ngrok.exe", 0, nullptr);
+		switch (result)
+		{
+		case E_OUTOFMEMORY:
+		{
+			MessageBox(NULL, "There is insufficient memory to complete the operation.", "E_OUTOFMEMORY", MB_ICONERROR);
+			break;
+		}
+		case INET_E_DOWNLOAD_FAILURE:
+		{
+			MessageBox(NULL, "The specified resource or callback interface was invalid.", "INET_E_DOWNLOAD_FAILURE", MB_ICONERROR);
+			break;
+		}
+		case S_OK:
+		{
+			MessageBox(NULL, "O arquivo foi baixado com sucesso.", "S_OK", MB_ICONINFORMATION);
+			break;
+		}
+		}
+	}
 }
 
 bool ngrok::create_tunnel(int port, int region)

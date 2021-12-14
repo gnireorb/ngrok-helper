@@ -2,7 +2,7 @@ name: C/C++ CI
 
 on:
   push:
-    branches: [ main, dev ]
+    branches: [ main ]
 
   workflow_dispatch:
     inputs:
@@ -13,23 +13,25 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: windows-2022
 
     steps:
       - uses: actions/checkout@v2
         with:
           submodules: recursive
       
-      - name: Setup msbuild
-        uses: microsoft/setup-msbuild@v1.0.2
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@v1.1
       
       - name: Setup premake
-        uses: abel0b/setup-premake@v1
+        uses: abel0b/setup-premake@v2
+        with:
+          version: "5.0.0-beta1"
         
       - name: Compile it
         shell: cmd
         run: | 
-           premake5 vs2019
+           premake5 vs2022
            msbuild ngrok-helper/ngrok-helper.vcxproj -p:Platform=Win32;Configuration=Release
         
       - name: Upload artifacts

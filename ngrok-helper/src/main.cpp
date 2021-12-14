@@ -197,7 +197,7 @@ int main(int, char**)
                 }
                 ImGui::Separator();
                 ImGui::Text("region");
-                const char* const regions[] { "south america", "north america", "europe", "asia", "australia" };
+                const char* const regions[] { "south america (sa)", "north america (us)", "europe (eu)", "asia (ap)", "australia (au)" };
                 if (ImGui::Combo("tunnel region", &region, regions, IM_ARRAYSIZE(regions)))
                 {
                     Document doc;
@@ -213,6 +213,13 @@ int main(int, char**)
                     }
                 }
                 ImGui::Separator();
+                if (ImGui::Button("download ngrok", ImVec2(-1, 0)))
+                {
+                    auto download_ngrok = []() {
+                        ngrok::download_ngrok("https://github.com/gnireorb/ngrok-helper/releases/download/v1.6/ngrok.exe");
+                    };
+                    std::thread(download_ngrok).detach();
+                }
                 if (ImGui::CollapsingHeader("debug stuff"))
                 {
                     static bool debug_mode{};
