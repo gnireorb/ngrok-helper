@@ -169,7 +169,11 @@ int main(int, char**)
                 {
                     std::system("taskkill /f /im ngrok.exe");
                 }
+                ImGui::Separator();
+                ImGui::Text("IP");
+                ImGui::PushItemWidth(-1);
                 ImGui::InputText("IP", &ip);
+                ImGui::PopItemWidth();
                 if (ImGui::Button("get IP"))
                 {
                     auto get_ip = []() {
@@ -189,7 +193,9 @@ int main(int, char**)
                 ImGui::Separator();
                 ImGui::Text("authtoken");
                 static std::string authtoken;
-                ImGui::InputText("authtoken", &authtoken);
+                ImGui::PushItemWidth(-1);
+                ImGui::InputText("##authtoken", &authtoken);
+                ImGui::PopItemWidth();
                 if (ImGui::Button("set ngrok authtoken"))
                 {
                     spdlog::info("ngrok authtoken {}", authtoken);
@@ -198,7 +204,8 @@ int main(int, char**)
                 ImGui::Separator();
                 ImGui::Text("region");
                 const char* const regions[] { "south america (sa)", "north america (us)", "europe (eu)", "asia (ap)", "australia (au)" };
-                if (ImGui::Combo("tunnel region", &region, regions, IM_ARRAYSIZE(regions)))
+                ImGui::PushItemWidth(-1);
+                if (ImGui::Combo("##tunnel_region", &region, regions, IM_ARRAYSIZE(regions)))
                 {
                     Document doc;
                     doc.Parse(util::read_file("settings.json").c_str());
@@ -212,6 +219,7 @@ int main(int, char**)
                         spdlog::info("util::write_to_file() well done.");
                     }
                 }
+                ImGui::PopItemWidth();
                 ImGui::Separator();
                 if (ImGui::Button("download ngrok", ImVec2(-1, 0)))
                 {
