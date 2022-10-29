@@ -26,7 +26,7 @@ project ("ngrok-helper")
    PrecompiledHeaderInclude = "common.hpp"
    PrecompiledHeaderSource = "%{prj.name}/src/common.cpp"
 
-   includedirs { "%{prj.name}/src", "include/httprequest/include", "include/json/single_include", "include/spdlog/include", "include/imgui", "include/imgui/backends" }
+   includedirs { "%{prj.name}/src", "include/HTTPRequest/include", "include/json/single_include", "include/spdlog/include", "include/imgui", "include/imgui/backends" }
    files { "%{prj.name}/src/**.cpp", "%{prj.name}/src/**.hpp" }
 
    links { "imgui" }
