@@ -1,24 +1,36 @@
-workspace "ngrok-helper"
-   startproject "ngrok-helper"
-   systemversion "10.0"
-   cppdialect "C++17"
-   toolset "v143"
+workspace ("ngrok-helper")
+   startproject ("ngrok-helper")
+   systemversion ("10.0")
+   cppdialect ("C++17")
+   toolset ("v143")
    defines { "_CRT_SECURE_NO_WARNINGS" }
    configurations { "Debug", "Release" }
 
-project "ngrok-helper"
-   kind "ConsoleApp"
-   language "C++"
-   targetdir "bin/%{cfg.buildcfg}"
-   location "ngrok-helper"
-   characterset "MBCS"
-   
-   includedirs { "include/spdlog/include", "include/ImGui", "include/ImGui/backends", "include/rapidjson/include/rapidjson", "include/HTTPRequest/include", "ngrok-helper/src" }
+project ("imgui")
+   location ("include/%{prj.name}")
+   kind ("StaticLib")
+   language ("C++")
+   targetdir ("bin/%{cfg.buildcfg}")
+   includedirs { "include/%{prj.name}" }
+   files { "include/%{prj.name}/backends/imgui_impl_dx9.cpp", "include/%{prj.name}/backends/imgui_impl_win32.cpp", "include/%{prj.name}/imgui.cpp", "include/%{prj.name}/imgui_tables.cpp", "include/%{prj.name}/imgui_demo.cpp", "include/%{prj.name}/imgui_widgets.cpp", "include/%{prj.name}/imgui_draw.cpp", "include/%{prj.name}/misc/cpp/imgui_stdlib.cpp" }
 
-   files { "ngrok-helper/src/**.hpp", "ngrok-helper/src/**.cpp" }
-   
-   links { "ImGui" }
+project ("ngrok-helper")
+   location ("ngrok-helper")
+   kind ("ConsoleApp")
+   language ("C++")
+   targetdir ("bin/%{cfg.buildcfg}")
+   objdir ("bin/obj/%{cfg.buildcfg}/%{prj.name}")
+   characterset ("MBCS")
 
+   disablewarnings { "4244" }
+   PrecompiledHeaderInclude = "common.hpp"
+   PrecompiledHeaderSource = "%{prj.name}/src/common.cpp"
+
+   includedirs { "%{prj.name}/src", "include/httprequest/include", "include/json/single_include", "include/spdlog/include", "include/imgui", "include/imgui/backends" }
+   files { "%{prj.name}/src/**.cpp", "%{prj.name}/src/**.hpp" }
+
+   links { "imgui" }
+   
    filter "configurations:Debug"
       defines { "DEBUG" }
       symbols "On"
@@ -26,13 +38,3 @@ project "ngrok-helper"
    filter "configurations:Release"
       defines { "NDEBUG" }
       optimize "On"
-      
-project "ImGui"
-   kind "StaticLib"
-   language "C++"
-   targetdir "bin/%{cfg.buildcfg}"
-   location "include/ImGui"
-   
-   includedirs { "include/ImGui" }
-
-   files { "include/ImGui/backends/imgui_impl_dx9.cpp", "include/ImGui/backends/imgui_impl_win32.cpp", "include/ImGui/imgui.cpp", "include/ImGui/imgui_tables.cpp", "include/ImGui/imgui_demo.cpp", "include/ImGui/imgui_widgets.cpp", "include/ImGui/imgui_draw.cpp", "include/ImGui/misc/cpp/imgui_stdlib.cpp" }
