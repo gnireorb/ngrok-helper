@@ -4,9 +4,9 @@
 [submodule "include/spdlog"]
 	path = include/spdlog
 	url = https://github.com/gabime/spdlog
-[submodule "include/HTTPRequest"]
-	path = include/HTTPRequest
-	url = https://github.com/elnormous/HTTPRequest
 [submodule "include/json"]
 	path = include/json
 	url = https://github.com/nlohmann/json
+[submodule "include/HTTPRequest"]
+	path = include/HTTPRequest
+	url = https://github.com/elnormous/HTTPRequest
