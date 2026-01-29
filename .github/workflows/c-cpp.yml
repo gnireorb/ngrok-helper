@@ -1,0 +1,42 @@
+name: C/C++ CI
+
+on:
+  push:
+    branches: [ main ]
+
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: 'A reason to trigger this workflow.'
+        required: true
+        default: 'Re-run workflow.'
+
+jobs:
+  build:
+    runs-on: windows-2022
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@v1.1
+      
+      - name: Setup premake
+        uses: abel0b/setup-premake@v2
+        with:
+          version: "5.0.0-beta1"
+        
+      - name: Compile it
+        shell: cmd
+        run: | 
+           premake5 vs2022
+           msbuild ngrok-helper/ngrok-helper.vcxproj -p:Platform=Win32;Configuration=Release
+        
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: milima-artifacts-x86
+          path: bin/Release/ngrok-helper.exe
+
