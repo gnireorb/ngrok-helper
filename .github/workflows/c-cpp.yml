@@ -13,20 +13,20 @@ on:
 
 jobs:
   build:
-    runs-on: windows-2022
+    runs-on: windows-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v6
         with:
           submodules: recursive
       
       - name: Add msbuild to PATH
-        uses: microsoft/setup-msbuild@v1.1
+        uses: microsoft/setup-msbuild@v2
       
       - name: Setup premake
-        uses: abel0b/setup-premake@v2
+        uses: abel0b/setup-premake@v2.4
         with:
-          version: "5.0.0-beta1"
+          version: "5.0.0-beta8"
         
       - name: Compile it
         shell: cmd
@@ -37,6 +37,6 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: milima-artifacts-x86
+          name: ngrok-helper
           path: bin/Release/ngrok-helper.exe
 
