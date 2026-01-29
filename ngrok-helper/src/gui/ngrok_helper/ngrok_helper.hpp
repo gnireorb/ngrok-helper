@@ -69,11 +69,11 @@ namespace ngrok_helper
 
 		ImGui::Separator();
 
-		ImGui::PushItemWidth(-1);
+		ImGui::PushItemWidth(200.f);
 		ImGui::Combo("Region", &region, ngrok::regions, IM_ARRAYSIZE(ngrok::regions));
 		ImGui::PopItemWidth();
 
-		ImGui::PushItemWidth(-1);
+		ImGui::PushItemWidth(200.f);
 		ImGui::Combo("Protocol Type", &protocol_type, ngrok::protocol_type, IM_ARRAYSIZE(ngrok::protocol_type));
 		ImGui::PopItemWidth();
 

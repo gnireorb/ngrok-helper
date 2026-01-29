@@ -7,12 +7,12 @@ workspace ("ngrok-helper")
    configurations { "Debug", "Release" }
 
 project ("imgui")
-   location ("include/%{prj.name}")
+   location ("vendor/%{prj.name}")
    kind ("StaticLib")
    language ("C++")
    targetdir ("bin/%{cfg.buildcfg}")
-   includedirs { "include/%{prj.name}" }
-   files { "include/%{prj.name}/backends/imgui_impl_dx9.cpp", "include/%{prj.name}/backends/imgui_impl_win32.cpp", "include/%{prj.name}/imgui.cpp", "include/%{prj.name}/imgui_tables.cpp", "include/%{prj.name}/imgui_demo.cpp", "include/%{prj.name}/imgui_widgets.cpp", "include/%{prj.name}/imgui_draw.cpp", "include/%{prj.name}/misc/cpp/imgui_stdlib.cpp" }
+   includedirs { "vendor/%{prj.name}" }
+   files { "vendor/%{prj.name}/backends/imgui_impl_dx9.cpp", "vendor/%{prj.name}/backends/imgui_impl_win32.cpp", "vendor/%{prj.name}/imgui.cpp", "vendor/%{prj.name}/imgui_tables.cpp", "vendor/%{prj.name}/imgui_demo.cpp", "vendor/%{prj.name}/imgui_widgets.cpp", "vendor/%{prj.name}/imgui_draw.cpp", "vendor/%{prj.name}/misc/cpp/imgui_stdlib.cpp" }
 
 project ("ngrok-helper")
    location ("ngrok-helper")
@@ -26,7 +26,10 @@ project ("ngrok-helper")
    PrecompiledHeaderInclude = "common.hpp"
    PrecompiledHeaderSource = "%{prj.name}/src/common.cpp"
 
-   includedirs { "%{prj.name}/src", "include/HTTPRequest/include", "include/json/single_include", "include/spdlog/include", "include/imgui", "include/imgui/backends" }
+    filter { "toolset:msc*" }
+      buildoptions { "/utf-8" }
+
+   includedirs { "%{prj.name}/src", "vendor/HTTPRequest/include", "vendor/json/single_include", "vendor/spdlog/include", "vendor/imgui", "vendor/imgui/backends" }
    files { "%{prj.name}/src/**.cpp", "%{prj.name}/src/**.hpp" }
 
    links { "imgui" }

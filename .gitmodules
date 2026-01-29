@@ -1,12 +1,12 @@
-[submodule "include/ImGui"]
-	path = include/ImGui
-	url = https://github.com/ocornut/imgui
-[submodule "include/spdlog"]
-	path = include/spdlog
-	url = https://github.com/gabime/spdlog
-[submodule "include/json"]
-	path = include/json
+[submodule "vendor/json"]
+	path = vendor/json
 	url = https://github.com/nlohmann/json
-[submodule "include/HTTPRequest"]
-	path = include/HTTPRequest
+[submodule "vendor/spdlog"]
+	path = vendor/spdlog
+	url = https://github.com/gabime/spdlog
+[submodule "vendor/ImGui"]
+	path = vendor/ImGui
+	url = https://github.com/ocornut/imgui
+[submodule "vendor/HTTPRequest"]
+	path = vendor/HTTPRequest
 	url = https://github.com/elnormous/HTTPRequest
