@@ -5,6 +5,7 @@
 # Related
 /bin
 *.sln
+*.slnx
 *.vcxproj
 *.vcxproj.filters
 *.vcxproj.user

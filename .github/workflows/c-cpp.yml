@@ -31,7 +31,7 @@ jobs:
       - name: Compile it
         shell: cmd
         run: | 
-           premake5 vs2022
+           premake5 vs2026
            msbuild ngrok-helper/ngrok-helper.vcxproj -p:Platform=Win32;Configuration=Release
         
       - name: Upload artifacts
