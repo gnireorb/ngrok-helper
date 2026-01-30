@@ -2,7 +2,7 @@ workspace ("ngrok-helper")
    startproject ("ngrok-helper")
    systemversion ("10.0")
    cppdialect ("C++20")
-   toolset ("v145")
+   toolset ("v143")
    defines { "_CRT_SECURE_NO_WARNINGS" }
    configurations { "Debug", "Release" }
 
