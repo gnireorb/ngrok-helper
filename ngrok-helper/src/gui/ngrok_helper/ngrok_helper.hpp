@@ -76,16 +76,5 @@ namespace ngrok_helper
 		ImGui::PushItemWidth(200.f);
 		ImGui::Combo("Protocol Type", &protocol_type, ngrok::protocol_type, IM_ARRAYSIZE(ngrok::protocol_type));
 		ImGui::PopItemWidth();
-
-		ImGui::Separator();
-
-		if (ImGui::Button("Download Ngrok"))
-		{
-			auto t = []()
-			{
-				ngrok::download(fmt::format("https://github.com/gnireorb/ngrok-helper/releases/download/{}/ngrok.exe", ngrok::version).c_str());
-			};
-			std::thread(t).detach();
-		}
 	}
 }

@@ -2,21 +2,47 @@
 
 namespace util
 {
-	static bool file_exists(const std::string& path)
+	static bool file_exists(const std::filesystem::path& p)
 	{
-		struct stat buffer;
-		return (stat(path.c_str(), &buffer) == 0);
+		std::error_code ec;
+		return std::filesystem::exists(p, ec);
 	}
 
-	static void to_clipboard(const char* str)
-	{
-		HGLOBAL hglobal = GlobalAlloc(GMEM_MOVEABLE, (strlen(str) + 1));
-		memcpy(GlobalLock(hglobal), str, (strlen(str) + 1));
-		GlobalUnlock(hglobal);
-		OpenClipboard(0);
-		EmptyClipboard();
-		SetClipboardData(CF_TEXT, hglobal);
-		CloseClipboard();
-		GlobalFree(hglobal);
-	}
+    static bool to_clipboard(std::string_view str)
+    {
+        const std::size_t bytes = str.size() + 1;
+
+        HGLOBAL hglobal = GlobalAlloc(GMEM_MOVEABLE, bytes);
+        if (!hglobal)
+            return false;
+
+        if (void* dst = GlobalLock(hglobal))
+        {
+            std::memcpy(dst, str.data(), str.size());
+            static_cast<char*>(dst)[str.size()] = '\0';
+            GlobalUnlock(hglobal);
+        }
+        else
+        {
+            GlobalFree(hglobal);
+            return false;
+        }
+
+        if (!OpenClipboard(nullptr))
+        {
+            GlobalFree(hglobal);
+            return false;
+        }
+
+        bool ok = false;
+        if (EmptyClipboard() && SetClipboardData(CF_TEXT, hglobal))
+            ok = true;
+
+        CloseClipboard();
+
+        if (!ok)
+            GlobalFree(hglobal);
+
+        return ok;
+    }
 }
